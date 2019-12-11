@@ -10,10 +10,15 @@ input.search-bar {
   padding: 20px;
   width: 50vw;
   font-size: 1em;
-  box-shadow: 0px 2px 20px 0px #e5ddf5;
+  box-shadow: 0px 0px 4px #c4c4c4;
   outline: none;
 }
+body.dark .search-bar {
+  background-color: rgb(221, 221, 221);
+}
 </style>
+
+
 
 <script>
 export default {
