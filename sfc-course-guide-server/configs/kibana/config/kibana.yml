@@ -9,7 +9,7 @@
   
   ## X-Pack security credentials
   #
-  elasticsearch.username: kibana
-  elasticsearch.password: bZOCB7LmnFB2S2LlCE7O
+  elasticsearch.username: ${KIBANA_USER}
+  elasticsearch.password: ${KIBANA_PASSWORD}
   
   

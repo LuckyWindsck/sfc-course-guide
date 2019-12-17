@@ -24,4 +24,3 @@
   path.config: "/usr/share/logstash/pipeline/perspective.cfg"
 - pipeline.id: summary_info
   path.config: "/usr/share/logstash/pipeline/summary_info.cfg"
-

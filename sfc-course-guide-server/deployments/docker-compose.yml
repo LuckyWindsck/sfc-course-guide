@@ -9,7 +9,14 @@ services:
         target: /etc/postgresql/postgresql.conf
         read_only: true
       - ../database/postgresql/data:/var/lib/postgresql/data
-      - ../database/hhlab.sql:/hhlab.sql
+      - type: bind
+        source: ../configs/postgresql/docker-entrypoint-initdb.d
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+      - type: bind
+        source: ../configs/postgresql/init-database
+        target: /init-database
+        read_only: true
     ports:
       - "5432:5432"
     networks:
@@ -19,9 +26,10 @@ services:
       - "-c"
       - "config_file=/etc/postgresql/postgresql.conf"
     environment:
-      - POSTGRES_DB
-      - POSTGRES_USER
       - POSTGRES_PASSWORD
+      - POSTGRES_USER
+      - POSTGRES_DB
+    restart: always
 
   elasticsearch:
     build:
@@ -44,6 +52,8 @@ services:
       - elk
     environment:
       - ES_JAVA_OPTS=-Xmx256m -Xms256m
+      - ELASTIC_PASSWORD
+    restart: always
 
   logstash:
     build:
@@ -66,12 +76,14 @@ services:
     networks:
       - elk
     environment:
-      - LS_JAVA_OPTS=-Xmx256m -Xms256m
-      - POSTGRES_DB
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - ELASTICSEARCH_USER
-      - ELASTICSEARCH_PASSWORD
+      - LS_JAVA_OPTS=-Xmx512m -Xms512m
+      - LOGSTASH_USER
+      - LOGSTASH_PASSWORD
+      - HHLAB_DB
+      - HHLAB_USER
+      - HHLAB_PASSWORD
+      - ELASTIC_USER
+      - ELASTIC_PASSWORD
     depends_on:
       - elasticsearch
       - postgresql
@@ -91,8 +103,12 @@ services:
       - "5601:5601"
     networks:
       - elk
+    environment:
+      - KIBANA_USER
+      - KIBANA_PASSWORD
     depends_on:
       - elasticsearch
+    restart: always
 
   server:
     build:
@@ -114,6 +130,7 @@ services:
       - POSTGRES_PASSWORD
     depends_on:
       - elasticsearch
+    restart: always
 
 networks:
   elk:

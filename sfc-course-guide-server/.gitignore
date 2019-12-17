@@ -1,6 +1,7 @@
 assets/
-database/postgresql/data/*
-!database/postgresql/data/.gitkeep
+configs/postgresql/docker-entrypoint-initdb.d/
+database/postgresql/*
+!database/postgresql/.gitkeep
 .env
 
 # jdbc drivers
