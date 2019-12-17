@@ -1,0 +1,123 @@
+version: '3.2'
+
+services:
+  postgresql:
+    image: postgres
+    volumes:
+      - type: bind
+        source: ../configs/postgresql/postgresql.conf
+        target: /etc/postgresql/postgresql.conf
+        read_only: true
+      - ../database/postgresql/data:/var/lib/postgresql/data
+      - ../database/hhlab.sql:/hhlab.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - elk
+    command:
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+
+  elasticsearch:
+    build:
+      context: ../
+      dockerfile: ./build/package/elasticsearch.Dockerfile
+      args:
+        - ELK_VERSION
+    volumes:
+      - type: bind
+        source: ../configs/elasticsearch/config/elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+        read_only: true
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elk
+    environment:
+      - ES_JAVA_OPTS=-Xmx256m -Xms256m
+
+  logstash:
+    build:
+      context: ../
+      dockerfile: ./build/package/logstash.Dockerfile
+      args:
+        - ELK_VERSION
+    volumes:
+      - type: bind
+        source: ../configs/logstash/config/logstash.yml
+        target: /usr/share/logstash/config/logstash.yml
+        read_only: true
+      - type: bind
+        source: ../configs/logstash/pipeline
+        target: /usr/share/logstash/pipeline
+        read_only: true
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    networks:
+      - elk
+    environment:
+      - LS_JAVA_OPTS=-Xmx256m -Xms256m
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - ELASTICSEARCH_USER
+      - ELASTICSEARCH_PASSWORD
+    depends_on:
+      - elasticsearch
+      - postgresql
+
+  kibana:
+    build:
+      context: ../
+      dockerfile: ./build/package/kibana.Dockerfile
+      args:
+        - ELK_VERSION
+    volumes:
+      - type: bind
+        source: ../configs/kibana/config/kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+        read_only: true
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  server:
+    build:
+      context: ../
+      dockerfile: ./build/package/server.Dockerfile
+      args:
+        - GO_VERSION
+    volumes: 
+      - ..:/workdir
+    ports:
+      - "8000:8000"
+    networks:
+      - elk
+    environment:
+      - DB_HOST
+      - DB_PORT
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    depends_on:
+      - elasticsearch
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elasticsearch:
