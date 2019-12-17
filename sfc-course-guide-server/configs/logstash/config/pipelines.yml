@@ -1,0 +1,27 @@
+- pipeline.id: aspect
+  path.config: "/usr/share/logstash/pipeline/aspect.cfg"
+- pipeline.id: aspect_class
+  path.config: "/usr/share/logstash/pipeline/aspect_class.cfg"
+- pipeline.id: auth
+  path.config: "/usr/share/logstash/pipeline/auth.cfg"
+- pipeline.id: class_info
+  path.config: "/usr/share/logstash/pipeline/class_info.cfg"
+- pipeline.id: class_master
+  path.config: "/usr/share/logstash/pipeline/class_master.cfg"
+- pipeline.id: d_faculty
+  path.config: "/usr/share/logstash/pipeline/d_faculty.cfg"
+- pipeline.id: eng_support
+  path.config: "/usr/share/logstash/pipeline/eng_support.cfg"
+- pipeline.id: faculty
+  path.config: "/usr/share/logstash/pipeline/faculty.cfg"
+- pipeline.id: lecture_info
+  path.config: "/usr/share/logstash/pipeline/lecture_info.cfg"
+- pipeline.id: pers_class
+  path.config: "/usr/share/logstash/pipeline/pers_class.cfg"
+- pipeline.id: pers_faculty
+  path.config: "/usr/share/logstash/pipeline/pers_faculty.cfg"
+- pipeline.id: perspective
+  path.config: "/usr/share/logstash/pipeline/perspective.cfg"
+- pipeline.id: summary_info
+  path.config: "/usr/share/logstash/pipeline/summary_info.cfg"
+

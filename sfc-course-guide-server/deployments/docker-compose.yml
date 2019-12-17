@@ -53,12 +53,12 @@ services:
         - ELK_VERSION
     volumes:
       - type: bind
-        source: ../configs/logstash/config/logstash.yml
-        target: /usr/share/logstash/config/logstash.yml
+        source: ../configs/logstash/config/
+        target: /usr/share/logstash/config/
         read_only: true
       - type: bind
-        source: ../configs/logstash/pipeline
-        target: /usr/share/logstash/pipeline
+        source: ../configs/logstash/pipeline/
+        target: /usr/share/logstash/pipeline/
         read_only: true
     ports:
       - "5000:5000"
