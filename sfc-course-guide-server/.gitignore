@@ -1,3 +1,9 @@
 assets/
-database/
+database/postgresql/data/*
+!database/postgresql/data/.gitkeep
 .env
+
+# jdbc drivers
+*.jar
+# databases
+*.sql
