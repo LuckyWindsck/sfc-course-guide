@@ -51,7 +51,7 @@ services:
     networks:
       - elk
     environment:
-      - ES_JAVA_OPTS=-Xmx256m -Xms256m
+      - ES_JAVA_OPTS
       - ELASTIC_PASSWORD
     restart: always
 
@@ -76,7 +76,7 @@ services:
     networks:
       - elk
     environment:
-      - LS_JAVA_OPTS=-Xmx512m -Xms512m
+      - LS_JAVA_OPTS
       - LOGSTASH_USER
       - LOGSTASH_PASSWORD
       - HHLAB_DB
