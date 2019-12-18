@@ -43,6 +43,7 @@ services:
       - LS_JAVA_OPTS
       - LOGSTASH_USER
       - LOGSTASH_PASSWORD
+      - LOGSTASH_JDBC_DRIVER
       - INIT_DB
       - INIT_USER
       - INIT_PASSWORD
