@@ -9,14 +9,6 @@ services:
         target: /etc/postgresql/postgresql.conf
         read_only: true
       - ../database/postgresql/data:/var/lib/postgresql/data
-      - type: bind
-        source: ../configs/postgresql/docker-entrypoint-initdb.d
-        target: /docker-entrypoint-initdb.d
-        read_only: true
-      - type: bind
-        source: ../configs/postgresql/init-database
-        target: /init-database
-        read_only: true
     ports:
       - "5432:5432"
     networks:
@@ -25,10 +17,6 @@ services:
       - "postgres"
       - "-c"
       - "config_file=/etc/postgresql/postgresql.conf"
-    environment:
-      - POSTGRES_PASSWORD
-      - POSTGRES_USER
-      - POSTGRES_DB
     restart: always
 
   elasticsearch:
@@ -54,39 +42,6 @@ services:
       - ES_JAVA_OPTS
       - ELASTIC_PASSWORD
     restart: always
-
-  logstash:
-    build:
-      context: ../
-      dockerfile: ./build/package/logstash.Dockerfile
-      args:
-        - ELK_VERSION
-    volumes:
-      - type: bind
-        source: ../configs/logstash/config/
-        target: /usr/share/logstash/config/
-        read_only: true
-      - type: bind
-        source: ../configs/logstash/pipeline/
-        target: /usr/share/logstash/pipeline/
-        read_only: true
-    ports:
-      - "5000:5000"
-      - "9600:9600"
-    networks:
-      - elk
-    environment:
-      - LS_JAVA_OPTS
-      - LOGSTASH_USER
-      - LOGSTASH_PASSWORD
-      - HHLAB_DB
-      - HHLAB_USER
-      - HHLAB_PASSWORD
-      - ELASTIC_USER
-      - ELASTIC_PASSWORD
-    depends_on:
-      - elasticsearch
-      - postgresql
 
   kibana:
     build:

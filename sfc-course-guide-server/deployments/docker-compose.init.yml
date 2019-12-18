@@ -1,0 +1,53 @@
+version: '3.2'
+
+services:
+  postgresql:
+    volumes:
+      - type: bind
+        source: ../configs/postgresql/docker-entrypoint-initdb.d
+        target: /docker-entrypoint-initdb.d
+        read_only: true
+      - type: bind
+        source: ../configs/postgresql/init-database
+        target: /init-database
+        read_only: true
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_DB
+      - INIT_PASSWORD
+      - INIT_USER
+      - INIT_DB
+      - INIT_PATH
+
+  logstash:
+    build:
+      context: ../
+      dockerfile: ./build/package/logstash.Dockerfile
+      args:
+        - ELK_VERSION
+    volumes:
+      - type: bind
+        source: ../configs/logstash/config/
+        target: /usr/share/logstash/config/
+        read_only: true
+      - type: bind
+        source: ../configs/logstash/pipeline/
+        target: /usr/share/logstash/pipeline/
+        read_only: true
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    networks:
+      - elk
+    environment:
+      - LS_JAVA_OPTS
+      - LOGSTASH_USER
+      - LOGSTASH_PASSWORD
+      - INIT_DB
+      - INIT_USER
+      - INIT_PASSWORD
+      - ELASTIC_USER
+      - ELASTIC_PASSWORD
+    depends_on:
+      - elasticsearch
+      - postgresql
