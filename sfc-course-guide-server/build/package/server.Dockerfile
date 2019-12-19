@@ -5,6 +5,5 @@ FROM golang:${GO_VERSION}
 WORKDIR /workdir
 COPY . /workdir
 
-# ENTRYPOINT ["go", "run", "main.go"]
-# CMD ["sleep", "1d"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["go", "run", "cmd/server/main.go"]
