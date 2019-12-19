@@ -14,6 +14,7 @@ const (
 	Address   = "localhost:8000"
 	Index     = "/"
 	Search    = "/search"
+	Count     = "/count"
 	EntryLink = Scheme + Address + Index
 )
 
@@ -66,6 +67,7 @@ func Route() {
 
 	// Route
 	router.GET(Index, httphandler.GetIndex)
+	router.GET(Count, httphandler.GetCount)
 	router.GET(Search, httphandler.GetSearch)
 
 	// openLink(EntryLink)
