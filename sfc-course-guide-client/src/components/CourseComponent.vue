@@ -256,11 +256,10 @@ export default {
       array["y"] = y;
       if (localStorage.local_array) {
         var top_array = JSON.parse(localStorage.local_array);
-        top_array.push(array);
       } else {
         var top_array = [];
-        top_array.push(array);
       }
+      top_array.push(array);
       // converting the array into a string
       localStorage.local_array = JSON.stringify(top_array);
     }

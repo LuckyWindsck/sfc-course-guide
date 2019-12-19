@@ -1,75 +1,17 @@
 <template>
-  <div class="timetable">
+  <div class="timetable" @click="appearTable">
+    <!-- @click="loadTable" v-if="showTable" @close="closeTable" -->
     <table id="test" border="1">
       <thead>
         <tr>
           <th style="width: 100px;"></th>
-          <th style="width: 200px;">月</th>
-          <th style="width: 200px;">火</th>
-          <th style="width: 200px;">水</th>
-          <th style="width: 200px;">木</th>
-          <th style="width: 200px;">金</th>
-          <th style="width: 200px;">土</th>
+          <th v-for="day in days" style="width: 200px;">{{day}}</th>
         </tr>
       </thead>
       <tbody>
-        <!-- <tr v-for="n in 6">
-          <th>{{ n }}</th>
-          <td v-for="i in 6">{{ empty }}</td>
-        </tr>-->
-        <tr>
-          <th>１</th>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <th>２</th>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <th>３</th>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <th>４</th>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <th>５</th>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <th>６</th>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
+        <tr v-for="n in [0, 1, 2, 3, 4, 5]">
+          <th>{{n}}</th>
+          <td v-for="v in [0, 1, 2, 3, 4, 5]">&nbsp;</td>
         </tr>
       </tbody>
     </table>
@@ -78,23 +20,45 @@
 </template>
 
 <style scoped>
+.timetable {
+  padding: 50px;
+  width: 1000px;
+  height: 800px;
+  text-align: center;
+  background-color: rgb(192, 147, 79);
+  z-index: 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -970px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10%;
+}
+
+/* .timetable:hover {
+  transform: translate(1000px, 0px);
+} */
+
 table {
   color: rgb(75, 75, 75);
-  border: 0.5px solid #aaa;
+  /* border: 0.5px solid #aaa;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: 6px;
+  border-radius: 6px; */
   overflow: hidden;
   background-color: rgb(255, 255, 255);
   width: 800px;
   margin-left: auto;
   margin-right: auto;
+  border: none;
 }
 table thead th,
 table tbody th,
 table tbody td {
   /* padding: 0.6em 3em; */
-  border-bottom: 0.5px solid #aaa;
+  /* border-bottom: 0.5px solid #aaa; */
+  border: none;
 }
 table thead th {
   background-color: rgb(79, 192, 141);
@@ -104,7 +68,8 @@ table tbody th {
 }
 table thead th + th,
 table tbody td {
-  border-left: 0.5px solid #aaa;
+  border-left: 0.1px solid #aaa;
+  /* border: none; */
 }
 table tbody tr:last-child th,
 table tbody tr:last-child td {
@@ -131,7 +96,7 @@ export default {
   data: function() {
     return {
       days: ["月", "火", "水", "木", "金", "土"],
-      empty: "&nbsp;"
+      showTable: true
     };
   },
   mounted() {
@@ -151,6 +116,12 @@ export default {
     reset_timetable() {
       localStorage.clear();
       location.reload();
+    },
+    appearTable() {
+      this.showTable = true;
+    },
+    closeTable() {
+      this.showTable = false;
     }
   }
 };

@@ -33,7 +33,7 @@ files.keys().forEach((key) => {
 
 // Use plugin
 const plugins = [Request, VueRouter];
-plugins.forEach(p => Vue.use(p));
+plugins.forEach((p) => Vue.use(p));
 
 const router = new VueRouter({
   mode: 'history',
