@@ -9,12 +9,12 @@
       </select>
     </div>
     <div class="course-wrapper" v-if="pagination.total">
-      <course
+      <course-v7
         v-for="(result, index) in resultsShowing"
         :key="index"
         :search-result="result"
         :query="query"
-      ></course>
+      ></course-v7>
     </div>
   </div>
 </template>
