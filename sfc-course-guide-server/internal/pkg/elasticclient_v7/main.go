@@ -3,12 +3,10 @@ package elasticclient_v7
 import (
 	"context"
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/olivere/elastic/v7"
+	"os"
 	"strings"
-)
-
-const (
-	esURL = "http://elastic:changeme@elasticsearch:9200"
 )
 
 // Search Result
@@ -27,6 +25,16 @@ type ClientSearchResult struct {
 }
 
 func initClient() (client *elastic.Client, err error) {
+	err = godotenv.Load()
+	if err != nil {
+		panic("loading env file failed")
+	}
+
+	elasticUser := os.Getenv("ELASTIC_USER")
+	elasticPassword := os.Getenv("ELASTIC_PASSWORD")
+
+	esURL := "http://" + elasticUser + ":" + elasticPassword + "@elasticsearch:9200"
+
 	client, err = elastic.NewClient(elastic.SetURL(esURL))
 	if err != nil {
 		fmt.Println(err)
