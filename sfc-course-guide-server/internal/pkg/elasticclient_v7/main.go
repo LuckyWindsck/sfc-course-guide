@@ -30,8 +30,7 @@ func initClient() (client *elastic.Client, err error) {
 	client, err = elastic.NewClient(elastic.SetURL(esURL))
 	if err != nil {
 		fmt.Println(err)
-		fmt.Println("connect es error")
-		return
+		panic("connect elasticsearch error")
 	}
 	fmt.Println("connected successfully")
 	return
