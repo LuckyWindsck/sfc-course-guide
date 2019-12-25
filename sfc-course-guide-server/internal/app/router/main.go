@@ -15,6 +15,7 @@ const (
 	Index     = "/"
 	Search    = "/search"
 	Count     = "/count"
+	Test      = "/test"
 	EntryLink = Scheme + Address + Index
 )
 
@@ -69,6 +70,7 @@ func Route() {
 	router.GET(Index, httphandler.GetIndex)
 	router.GET(Count, httphandler.GetCount)
 	router.GET(Search, httphandler.GetSearch)
+	router.GET(Test, httphandler.GetTest)
 
 	// openLink(EntryLink)
 

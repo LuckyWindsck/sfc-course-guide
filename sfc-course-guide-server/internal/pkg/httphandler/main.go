@@ -67,3 +67,7 @@ func GetCount(c *gin.Context) {
 	Pretty(c, counts)
 	return
 }
+
+func GetTest(c *gin.Context) {
+	c.String(http.StatusOK, "test")
+}
