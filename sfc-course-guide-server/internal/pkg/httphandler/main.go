@@ -69,5 +69,6 @@ func GetCount(c *gin.Context) {
 }
 
 func GetTest(c *gin.Context) {
-	c.String(http.StatusOK, "test")
+	result := elasticclient_v7.GetTest()
+	Pretty(c, result)
 }

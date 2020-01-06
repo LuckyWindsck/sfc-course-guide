@@ -2,12 +2,18 @@ package elasticclient_v7
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/olivere/elastic/v7"
 	"os"
 	"strings"
 )
+
+type Course struct { // Example Course
+	Title   string
+	Faculty string
+}
 
 // Search Result
 type Hit interface {
@@ -119,4 +125,95 @@ func GetAllCourse() (clientSearchResult ClientSearchResult, err error) {
 	}
 
 	return
+}
+
+func GetTest() interface{} {
+	boolQuery := elastic.NewBoolQuery()
+	boolQuery = boolQuery.Filter(
+		elastic.NewTermQuery("year", 2019),
+		elastic.NewTermQuery("summary_flag", true),
+	)
+
+	classInfos, err := client.
+		Search("class_info").
+		Query(boolQuery).
+		From(0).Size(10).
+		Do(ctx)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	var ids []string
+	for _, classInfo := range classInfos.Hits.Hits {
+		var class struct {
+			FacultyID string `json:"faculty_id"`
+		}
+		err = json.Unmarshal(classInfo.Source, &class)
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+
+		if class.FacultyID != "" {
+			ids = append(ids, class.FacultyID)
+		}
+	}
+
+	var names []string
+	for _, id := range ids {
+		matchQuery := elastic.NewMatchQuery("id", id)
+		faculties, err := client.
+			Search("faculty").
+			Query(matchQuery).
+			Do(ctx)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+
+		var teacher struct {
+			Name string `json:"name"`
+		}
+
+		numTeacher := len(faculties.Hits.Hits)
+		if numTeacher > 1 {
+			panic("Many teachers can be found with this ID")
+		}
+		if numTeacher == 0 {
+			panic("No teacher is found with this ID")
+		}
+
+		err = json.Unmarshal(faculties.Hits.Hits[0].Source, &teacher)
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+
+		names = append(names, teacher.Name)
+	}
+
+	dict := make(map[string]string)
+	for i, id := range ids {
+		dict[id] = names[i]
+	}
+
+	var courseList []Course
+
+	for _, classInfo := range classInfos.Hits.Hits {
+		cInfo := classInfo.Source
+		var temp struct {
+			Title     string `json:"title"`
+			FacultyID string `json:"faculty_id"`
+		}
+		err = json.Unmarshal(cInfo, &temp)
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+
+		var c Course
+		c.Title = temp.Title
+		c.Faculty = dict[temp.FacultyID]
+		courseList = append(courseList, c)
+	}
+
+	return courseList
 }
