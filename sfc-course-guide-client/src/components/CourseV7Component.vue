@@ -60,7 +60,11 @@ body.dark .course-box {
   line-height: 2em;
   box-shadow: 0px 2px 20px 0px #e5ddf5;
 }
-
+body.dark .course-box:hover {
+  cursor: pointer;
+  color: white;
+  background-color: rgb(20, 31, 39);
+}
 body.dark .course-box .highlight {
   color: #ff6200;
 }
@@ -69,14 +73,14 @@ body.dark .course-box .highlight {
 export default {
   data() {
     return {
-      showModal: false,
+      showModal: false
     };
   },
-  props: ['searchResult', 'query'],
+  props: ["searchResult", "query"],
   computed: {
     course() {
       return this.searchResult;
-    },
+    }
   },
   methods: {
     loadModal() {
@@ -84,7 +88,7 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-    },
-  },
+    }
+  }
 };
 </script>

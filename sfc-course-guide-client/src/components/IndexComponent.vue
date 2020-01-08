@@ -57,7 +57,7 @@ body {
 }
 
 body.dark {
-  background-color: rgb(31, 31, 31);
+  background-color: #1b384a;
 }
 
 .aligner {
@@ -87,21 +87,21 @@ svg {
 export default {
   data() {
     return {
-      switcherName: 'dark',
-      dark: true,
+      switcherName: "dark",
+      dark: true
     };
   },
   methods: {
     themeSwitcher() {
       // TODO(1) manually trigger darkmode for body element
-      document.body.classList[this.dark ? 'add' : 'remove']('dark');
-      this.switcherName = this.dark ? 'light' : 'dark';
+      document.body.classList[this.dark ? "add" : "remove"]("dark");
+      this.switcherName = this.dark ? "light" : "dark";
       this.dark = !this.dark;
-    },
+    }
   },
   mounted() {
     // TODO(1)
     if (this.dark) this.themeSwitcher();
-  },
+  }
 };
 </script>
