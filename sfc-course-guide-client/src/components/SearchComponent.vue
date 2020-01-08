@@ -1,5 +1,6 @@
 <template>
   <div>
+    <timetable></timetable>
     <logo></logo>
     <search-bar @search="foundCourseResults" ref="searchbar"></search-bar>
     <course-list :search-results="searchResults"></course-list>

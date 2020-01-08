@@ -21,18 +21,18 @@
 
 <style scoped>
 .timetable {
-  padding: 50px;
+  /* padding: 50px;
   width: 1000px;
-  height: 800px;
+  height: 800px; */
   text-align: center;
   background-color: rgb(192, 147, 79);
-  z-index: 10px;
-  position: absolute;
+  /* z-index: 10px; */
+  /* position: absolute; */
   top: 0;
   bottom: 0;
-  left: -970px;
-  margin-left: auto;
-  margin-right: auto;
+  /* left: -970px; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
   border-radius: 10%;
 }
 
@@ -48,9 +48,9 @@ table {
   border-radius: 6px; */
   overflow: hidden;
   background-color: rgb(255, 255, 255);
-  width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  /* width: 800px; */
+  /* margin-left: auto;
+  margin-right: auto; */
   border: none;
 }
 table thead th,
