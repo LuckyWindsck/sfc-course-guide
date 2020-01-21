@@ -1,5 +1,4 @@
 assets/
-configs/postgresql/docker-entrypoint-initdb.d/
 database/postgresql/*
 !database/postgresql/.gitkeep
 .env
