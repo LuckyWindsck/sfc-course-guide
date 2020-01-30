@@ -101,13 +101,13 @@ export default {
   },
   mounted() {
     if (localStorage.local_array) {
-      var table = document.getElementById("test");
-      var array = JSON.parse(localStorage.local_array);
+      const table = document.getElementById("test");
+      const array = JSON.parse(localStorage.local_array);
       for (var i = 0; i <= array.length; i++) {
-        var titles_en = array[i]["title"];
-        var x = array[i]["x"];
-        var y = array[i]["y"];
-        var td = table.rows[y].cells[x];
+        const titles_en = array[i]["title"];
+        let x = array[i]["x"];
+        let y = array[i]["y"];
+        const td = table.rows[y].cells[x];
         td.firstChild.nodeValue = titles_en;
       }
     }

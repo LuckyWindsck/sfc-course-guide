@@ -81,14 +81,14 @@ body.dark .course-box .highlight {
 export default {
   data() {
     return {
-      showModal: false,
+      showModal: false
     };
   },
-  props: ['searchResult', 'query'],
+  props: ["searchResult", "query"],
   computed: {
     course() {
       return this.searchResult;
-    },
+    }
   },
   methods: {
     loadModal() {
@@ -98,81 +98,67 @@ export default {
       this.showModal = false;
     },
     add_to_timetable() {
-      var titles_en = this.course.Title_en.replace(
-        /<("[^"]*"|'[^']*'|[^'">])*>/g,
-        ""
-      );
+      const titles_en = this.course.title;
 
-      var days_en = this.course.Days_en.replace(
-        /<("[^"]*"|'[^']*'|[^'">])*>/g,
-        ""
-      );
+      const days_en = this.course.class_day;
 
-      var days_list = days_en.split(" ");
+      const days_list = days_en.split(",");
+      console.log(days_list[0]);
+      let x;
+      let y;
 
-      var x;
-      var y;
+      const week_list = [
+        "月曜日",
+        "火曜日",
+        "水曜日",
+        "木曜日",
+        "金曜日",
+        "土曜日"
+      ];
 
-      switch (days_list[0]) {
-        case "Monday":
-          x = 1;
-          break;
-        case "Tuesday":
-          x = 2;
-          break;
-        case "Wednesday":
-          x = 3;
-          break;
-        case "Thursday":
-          x = 4;
-          break;
-        case "Friday":
-          x = 5;
-          break;
-        case "Saturday":
-          x = 6;
-          break;
+      console.log(week_list);
+      for (let i = 0; i < week_list.length; i++) {
+        if (days_list[0].indexOf(week_list[i]) !== -1) {
+          x = i + 1;
+        }
       }
+      console.log(x);
 
-      switch (days_list[1]) {
-        case "1st":
-          y = 1;
-          break;
-        case "2nd":
-          y = 2;
-          break;
-        case "3rd":
-          y = 3;
-          break;
-        case "4th":
-          y = 4;
-          break;
-        case "5th":
-          y = 5;
-          break;
-        case "6th":
-          y = 6;
-          break;
+      const numbers = [
+        "１時限",
+        "２時限",
+        "３時限",
+        "４時限",
+        "５時限",
+        "６時限"
+      ];
+
+      for (let i = 0; i < numbers.length; i++) {
+        if (days_list[0].indexOf(numbers[i]) !== -1) {
+          y = i + 1;
+        }
       }
+      console.log(y);
 
-      var table = document.getElementById("test");
-      var td = table.rows[y].cells[x];
+      const table = document.getElementById("test");
+      const td = table.rows[y].cells[x];
       td.firstChild.nodeValue = titles_en;
 
-      var array = {};
-
+      const array = {};
+      const top_array = [];
       array["title"] = titles_en;
       array["x"] = x;
       array["y"] = y;
       if (localStorage.local_array) {
-        var top_array = JSON.parse(localStorage.local_array);
+        const top_array = JSON.parse(localStorage.local_array);
       } else {
-        var top_array = [];
+        const top_array = [];
       }
       top_array.push(array);
       // converting the array into a string
       localStorage.local_array = JSON.stringify(top_array);
+      console.log(top_array);
     }
-  },
+  }
 };
 </script>
